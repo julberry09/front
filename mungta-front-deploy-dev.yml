@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mungta-front
+  namespace: mungta
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mungta-front
+  template:
+    metadata:
+      labels:
+        app: mungta-front
+    spec:
+      containers:
+        - name: mungta-front
+          image: mungtaregistry.azurecr.io/mungta/dev/mungta-front
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mungta-front
+  namespace: mungta
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: mungta-front
